@@ -6,6 +6,9 @@ deploy:
   api_key:
     secure: B05EDVoAoljFSARzM++O/sGQBc9G9ENqD5eovmoteOBoTL12obwe+tXxhAcKx+3WxJpphMJRPhATDmgeCEDe+e8RZU5D7cjZrupi+NhWjHbHKSh0sKEKMQkk/HlFPI8KMeQXiQwJs2i5zsUIt7mTmPEf4b7VAaVm0EY41V32PCbhTDxIhZIQMIK3JX9KXVokbeQlsITDHHHwznNRX4wU+v67Vbccnma+5z2QOJt4oKKwOyGizrIIKHBdEvs8EpR8i0JsvQrM55Oj0v9k7yYEWlcZX594pyegMCpFyAth5GOZsifB9bN8/bvdyrtGx3svMDRm0vua5MMMi+Kh/dtSQo1/+yTcw/n98y372x6f2gtz8w6js21g2i9FRZe54xnqJ4kcL3/idZas4KNdKhT/O/2nxGyVS0iTDZj7wZ128EDxDHPVlW2AwTEJqf5/rlKyFyhtOY7G1ja+XXcP/Ql6B0o4fvNzCSa2BP5t9wPfnz1WAJhPtFEFTq8rlBg+gx+NxF2i0SA1LAA3twycQ+L00HOoYYSM6YgfQsNoXEI94n64B2/vyKvH/sLfmq0V2UtQ6AU5gq3OC1KCOqPOi4CjtfxhfDr+89SVZvxZRsVHkwg1b9H+ZSUMYdqHzG0o93SiICWFMAyhHoqPSWuhncTYCDm/HSxIRl9FebG7j0KUlSE=
   app: petkeeper-uniandes
+  run:
+    - "rake db:migrate"
+    - "rake cleanup"
   on:
     repo: kaosterra/petkeeper-back
 notifications:
