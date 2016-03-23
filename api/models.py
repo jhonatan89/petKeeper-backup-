@@ -10,8 +10,3 @@ class Request(models.Model):
     start_date = models.DateTimeField(auto_now_add=True)
     end_date = models.DateTimeField(auto_now_add=True)
     open = models.BooleanField(default=False)
-
-    def __unicode__(self):
-        return self.name
-
-
