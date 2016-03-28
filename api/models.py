@@ -7,6 +7,6 @@ from django.db import models
 
 class Request(models.Model):
     description = models.CharField(max_length=200)
-    start_date = models.DateTimeField(auto_now_add=True)
-    end_date = models.DateTimeField(auto_now_add=True)
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
     open = models.BooleanField(default=False)
