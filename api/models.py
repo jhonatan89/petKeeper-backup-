@@ -10,14 +10,7 @@ class Breed(models.Model):
 
 
 class Size(models.Model):
-    SIZE_CHOICES = (
-        ('XS', 'X-Small'),
-        ('S', 'Small'),
-        ('M', 'Medium'),
-        ('L', 'Large'),
-        ('G', 'Giant'),
-    )
-    name = models.CharField(max_length=2, choices=SIZE_CHOICES, default='M')
+    name = models.CharField(max_length=15)
 
 
 class Pet(models.Model):
