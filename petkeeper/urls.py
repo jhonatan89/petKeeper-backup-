@@ -14,7 +14,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 #Django
-from django.conf.urls import url, include
+from django.conf.urls import url
+from django.conf.urls import include
 from django.contrib import admin
 
 #Django Rest Framework
@@ -24,12 +25,15 @@ from rest_framework import routers
 from api.views import RequestViewSet
 from api.views import PetViewSet
 from api.views import SizeViewSet
+from api.views import BreedViewSet
+
 
 # Routers provide an easy way of automatically determining the URL conf.
 router = routers.DefaultRouter()
 router.register(r'requests', RequestViewSet)
 router.register(r'pets', PetViewSet)
 router.register(r'sizes', SizeViewSet)
+router.register(r'breeds', BreedViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

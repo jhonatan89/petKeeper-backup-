@@ -5,6 +5,7 @@ from rest_framework import serializers
 from api.models import Request
 from api.models import Pet
 from api.models import Size
+from api.models import Breed
 
 
 class RequestSerializer(serializers.HyperlinkedModelSerializer):
@@ -22,4 +23,10 @@ class PetSerializer(serializers.HyperlinkedModelSerializer):
 class SizeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Size
-        fields = ('name')
+        fields = ('name', )
+
+
+class BreedSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Breed
+        fields = ('name', )

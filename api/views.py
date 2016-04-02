@@ -1,10 +1,10 @@
 #Selializers
-from api.model_serializers import RequestSerializer
+from api.model_serializers import RequestSerializer, BreedSerializer
 from api.model_serializers import PetSerializer
 from api.model_serializers import SizeSerializer
 
 #Models
-from api.models import Request
+from api.models import Request, Breed
 from api.models import Pet
 from api.models import Size
 
@@ -27,3 +27,8 @@ class SizeViewSet(viewsets.ModelViewSet):
 
     queryset = Size.objects.all()
     serializer_class = SizeSerializer
+
+class BreedViewSet(viewsets.ModelViewSet):
+
+    queryset = Breed.objects.all().order_by('name')
+    serializer_class = BreedSerializer

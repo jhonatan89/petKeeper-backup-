@@ -1,16 +1,29 @@
+#others
 from __future__ import unicode_literals
 
+#Django
 from django.contrib.auth.models import User
 from django.db import models
-# Create your models here.
+
+
 
 
 class Breed(models.Model):
     name = models.CharField(max_length=30)
 
 
+    class Meta(object):
+        ordering = ('name',)
+
+    def __unicode__ (self):
+        return '%s' % (self.name)
+
+
 class Size(models.Model):
     name = models.CharField(max_length=15)
+
+    def __unicode__ (self):
+        return '%s' % (self.name)
 
 
 class Pet(models.Model):
