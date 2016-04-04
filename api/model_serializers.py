@@ -1,8 +1,9 @@
 #Django Rest Framework
 from rest_framework import serializers
+from django.contrib.auth.models import User
 
 #Models
-from api.models import Request
+from api.models import Request, Offer
 from api.models import Pet
 from api.models import Size
 from api.models import Breed
@@ -20,6 +21,15 @@ class PetSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('name', 'birthDate', 'description', 'size', 'breed')
 
 
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    pets = serializers.PrimaryKeyRelatedField(many=True, queryset=Pet.objects.all())
+    offers = serializers.PrimaryKeyRelatedField(many=True, queryset=Offer.objects.all())
+
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'pets', 'offers')
+
+
 class SizeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Size
@@ -30,3 +40,11 @@ class BreedSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Breed
         fields = ('name', )
+
+
+class OfferSerializer(serializers.HyperlinkedModelSerializer):
+    user = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model = Offer
+        fields = ('description', 'price', 'request', 'user')
