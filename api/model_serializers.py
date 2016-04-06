@@ -42,7 +42,7 @@ class BreedSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('name', )
 
 
-class OfferSerializer(serializers.HyperlinkedModelSerializer):
+class OfferSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
 
     class Meta:

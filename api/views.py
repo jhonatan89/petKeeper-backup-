@@ -9,8 +9,9 @@ from api.models import Pet
 from api.models import Size
 
 #Django Rest Framework
+from rest_framework import status
 from rest_framework import viewsets
-from rest_framework.decorators import list_route
+from rest_framework.decorators import list_route, detail_route
 from rest_framework.response import Response
 
 
@@ -23,8 +24,23 @@ class RequestViewSet(viewsets.ModelViewSet):
 
     # This method provide url_path='request/me'
     @list_route(methods=['get'], url_path='me')
-    def me(self, request):
+    def me(self, request, pk=None):
         return Response({})
+
+    # This method provide url_path='requests/{pk}/offers'
+    @detail_route(methods=['get', 'post'], url_path='offers')
+    def offers(self, request, pk=None):
+        req = Request.objects.get(pk=pk)
+        if request.method == 'GET':
+            queryset = Offer.objects.filter(request=req)
+            serializer_class = OfferSerializer(queryset, many=True, context={'request': request})
+            return Response(serializer_class.data)
+        if request.method == 'POST':
+            serializer_class = OfferSerializer(data=request.data, context={'request': request})
+            if serializer_class.is_valid():
+                serializer_class.save(user=self.request.user, request=req)
+                return Response(serializer_class.data, status=status.HTTP_201_CREATED)
+            return Response(serializer_class.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class PetViewSet(viewsets.ModelViewSet):
