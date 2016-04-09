@@ -23,12 +23,12 @@ class PetSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-    pets = serializers.PrimaryKeyRelatedField(many=True, queryset=Pet.objects.all())
-    offers = serializers.PrimaryKeyRelatedField(many=True, queryset=Offer.objects.all())
+    #pets = serializers.PrimaryKeyRelatedField(many=True, queryset=Pet.objects.all())
+    #offers = serializers.PrimaryKeyRelatedField(many=True, queryset=Offer.objects.all())
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'pets', 'offers')
+        fields = ('id', 'username', 'email')
 
 
 class SizeSerializer(serializers.HyperlinkedModelSerializer):

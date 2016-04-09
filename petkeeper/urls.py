@@ -23,7 +23,7 @@ from rest_framework.routers import DefaultRouter
 from rest_framework_extensions.routers import NestedRouterMixin
 
 # Views
-from api.views import RequestViewSet, OfferViewSet
+from api.views import RequestViewSet, OfferViewSet, UserViewSet
 from api.views import PetViewSet
 from api.views import SizeViewSet
 from api.views import BreedViewSet
@@ -42,6 +42,7 @@ router = NestedDefaultRouter()
 router.register(r'pets', PetViewSet)
 router.register(r'sizes', SizeViewSet)
 router.register(r'breeds', BreedViewSet)
+router.register(r'me', UserViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

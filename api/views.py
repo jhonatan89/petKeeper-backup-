@@ -1,6 +1,6 @@
 #Selializers
 from __future__ import unicode_literals
-from api.model_serializers import RequestSerializer, BreedSerializer
+from api.model_serializers import RequestSerializer, BreedSerializer, UserSerializer
 from api.model_serializers import PetSerializer, OfferSerializer
 from api.model_serializers import SizeSerializer
 
@@ -8,6 +8,7 @@ from api.model_serializers import SizeSerializer
 from api.models import Request, Breed, Offer
 from api.models import Pet
 from api.models import Size
+from django.contrib.auth.models import User
 
 #Django Rest Framework
 from rest_framework import viewsets
@@ -48,3 +49,16 @@ class OfferViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     # This method uses current user and request for creating new offer
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+
+class UserViewSet(viewsets.ModelViewSet):
+
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    # Show all users if is superuser
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return User.objects.all()
+        else:
+            return User.objects.filter(id=self.request.user.id)
