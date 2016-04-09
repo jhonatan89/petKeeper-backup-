@@ -1,4 +1,5 @@
 #Selializers
+from __future__ import unicode_literals
 from api.model_serializers import RequestSerializer, BreedSerializer
 from api.model_serializers import PetSerializer, OfferSerializer
 from api.model_serializers import SizeSerializer
@@ -9,38 +10,16 @@ from api.models import Pet
 from api.models import Size
 
 #Django Rest Framework
-from rest_framework import status
 from rest_framework import viewsets
-from rest_framework.decorators import list_route, detail_route
-from rest_framework.response import Response
+from rest_framework_extensions.mixins import NestedViewSetMixin
 
 
-class RequestViewSet(viewsets.ModelViewSet):
+class RequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     """
-    API endpoint that allows users to be viewed or edited.
+    API endpoint that allows requests to be viewed or edited.
     """
     queryset = Request.objects.all()
     serializer_class = RequestSerializer
-
-    # This method provide url_path='request/me'
-    @list_route(methods=['get'], url_path='me')
-    def me(self, request, pk=None):
-        return Response({})
-
-    # This method provide url_path='requests/{pk}/offers'
-    @detail_route(methods=['get', 'post'], url_path='offers')
-    def offers(self, request, pk=None):
-        req = Request.objects.get(pk=pk)
-        if request.method == 'GET':
-            queryset = Offer.objects.filter(request=req)
-            serializer_class = OfferSerializer(queryset, many=True, context={'request': request})
-            return Response(serializer_class.data)
-        if request.method == 'POST':
-            serializer_class = OfferSerializer(data=request.data, context={'request': request})
-            if serializer_class.is_valid():
-                serializer_class.save(user=self.request.user, request=req)
-                return Response(serializer_class.data, status=status.HTTP_201_CREATED)
-            return Response(serializer_class.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class PetViewSet(viewsets.ModelViewSet):
@@ -61,16 +40,11 @@ class BreedViewSet(viewsets.ModelViewSet):
     serializer_class = BreedSerializer
 
 
-class OfferViewSet(viewsets.ModelViewSet):
+class OfferViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
     queryset = Offer.objects.all()
     serializer_class = OfferSerializer
 
-    # This method returns the current user offers
-    def get_queryset(self):
-        offers_by_user = Offer.objects.filter(user=self.request.user)
-        return offers_by_user
-
-    # This method uses current user for creating new offer
+    # This method uses current user and request for creating new offer
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

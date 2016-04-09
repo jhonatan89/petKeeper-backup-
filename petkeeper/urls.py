@@ -19,7 +19,8 @@ from django.conf.urls import include
 from django.contrib import admin
 
 # Django Rest Framework
-from rest_framework import routers
+from rest_framework.routers import DefaultRouter
+from rest_framework_extensions.routers import NestedRouterMixin
 
 # Views
 from api.views import RequestViewSet, OfferViewSet
@@ -27,13 +28,20 @@ from api.views import PetViewSet
 from api.views import SizeViewSet
 from api.views import BreedViewSet
 
+
+class NestedDefaultRouter(NestedRouterMixin, DefaultRouter):
+    pass
+
+# Routers for request/{pk}/offers/{pk}
+router = NestedDefaultRouter()
+(
+    router.register(r'requests', RequestViewSet, 'request').register(
+                    r'offers', OfferViewSet, 'request-offer', parents_query_lookups=['request'])
+)
 # Routers provide an easy way of automatically determining the URL conf.
-router = routers.DefaultRouter()
-router.register(r'requests', RequestViewSet)
 router.register(r'pets', PetViewSet)
 router.register(r'sizes', SizeViewSet)
 router.register(r'breeds', BreedViewSet)
-router.register(r'offers', OfferViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
