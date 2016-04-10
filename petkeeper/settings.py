@@ -135,7 +135,7 @@ SOCIAL_AUTH_FACEBOOK_SECRET = os.getenv('FB_APP_SECRET')
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'public_profile']
 
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
-  'fields': 'id, name, email, first_name, middle_name, last_name'
+    'fields': 'id, name, email, first_name, middle_name, last_name'
 }
 
 # Internationalization
@@ -164,6 +164,4 @@ STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
 
 # CORS
-CORS_ORIGIN_WHITELIST = (
-    'localhost'
-)
+CORS_ORIGIN_ALLOW_ALL = True
