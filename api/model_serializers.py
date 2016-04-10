@@ -10,6 +10,18 @@ from api.models import Size
 from api.models import Breed
 
 
+class SizeSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Size
+        fields = ('id', 'name')
+
+
+class BreedSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Breed
+        fields = ('id', 'name')
+
+
 class RequestSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Request
@@ -17,6 +29,9 @@ class RequestSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class PetSerializer(serializers.HyperlinkedModelSerializer):
+    breed = BreedSerializer()
+    size = SizeSerializer()
+
     class Meta:
         model = Pet
         fields = ('name', 'birthDate', 'description', 'size', 'breed')
@@ -29,18 +44,6 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'email', 'first_name', 'last_name')
-
-
-class SizeSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Size
-        fields = ('id', 'name')
-
-
-class BreedSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Breed
-        fields = ('id', 'name')
 
 
 class OfferSerializer(serializers.ModelSerializer):
