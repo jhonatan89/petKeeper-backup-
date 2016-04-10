@@ -1,7 +1,8 @@
 #Selializers
 from __future__ import unicode_literals
-from api.model_serializers import RequestSerializer, BreedSerializer, UserSerializer
+
 from api.model_serializers import PetSerializer, OfferSerializer
+from api.model_serializers import RequestSerializer, BreedSerializer, UserSerializer
 from api.model_serializers import SizeSerializer
 
 #Models
@@ -11,11 +12,11 @@ from api.models import Size
 from django.contrib.auth.models import User
 
 #Django Rest Framework
-from rest_framework import viewsets
+from rest_framework.viewsets import ModelViewSet
 from rest_framework_extensions.mixins import NestedViewSetMixin
 
 
-class RequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+class RequestViewSet(NestedViewSetMixin, ModelViewSet):
     """
     API endpoint that allows requests to be viewed or edited.
     """
@@ -23,25 +24,25 @@ class RequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     serializer_class = RequestSerializer
 
 
-class PetViewSet(viewsets.ModelViewSet):
+class PetViewSet(ModelViewSet):
 
     queryset = Pet.objects.all()
     serializer_class = PetSerializer
 
 
-class SizeViewSet(viewsets.ModelViewSet):
+class SizeViewSet(ModelViewSet):
 
     queryset = Size.objects.all()
     serializer_class = SizeSerializer
 
 
-class BreedViewSet(viewsets.ModelViewSet):
+class BreedViewSet(ModelViewSet):
 
     queryset = Breed.objects.all().order_by('name')
     serializer_class = BreedSerializer
 
 
-class OfferViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+class OfferViewSet(NestedViewSetMixin, ModelViewSet):
 
     queryset = Offer.objects.all()
     serializer_class = OfferSerializer
@@ -51,7 +52,7 @@ class OfferViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         serializer.save(user=self.request.user)
 
 
-class UserViewSet(viewsets.ModelViewSet):
+class UserViewSet(ModelViewSet):
 
     queryset = User.objects.all()
     serializer_class = UserSerializer

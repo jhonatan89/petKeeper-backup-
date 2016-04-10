@@ -1,9 +1,9 @@
-#Django Rest Framework
+# Django Rest Framework
 from __future__ import unicode_literals
 from rest_framework import serializers
 from django.contrib.auth.models import User
 
-#Models
+# Models
 from api.models import Request, Offer
 from api.models import Pet
 from api.models import Size
@@ -23,24 +23,24 @@ class PetSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-    #pets = serializers.PrimaryKeyRelatedField(many=True, queryset=Pet.objects.all())
-    #offers = serializers.PrimaryKeyRelatedField(many=True, queryset=Offer.objects.all())
+    # pets = serializers.PrimaryKeyRelatedField(many=True, queryset=Pet.objects.all())
+    # offers = serializers.PrimaryKeyRelatedField(many=True, queryset=Offer.objects.all())
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'email')
+        fields = ('id', 'username', 'email', 'first_name', 'last_name')
 
 
 class SizeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Size
-        fields = ('name', )
+        fields = ('name',)
 
 
 class BreedSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Breed
-        fields = ('name', )
+        fields = ('name',)
 
 
 class OfferSerializer(serializers.ModelSerializer):
