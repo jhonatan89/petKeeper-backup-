@@ -12,7 +12,7 @@ from api.models import Size
 from django.contrib.auth.models import User
 
 #Django Rest Framework
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from rest_framework_extensions.mixins import NestedViewSetMixin
 
 
@@ -30,13 +30,13 @@ class PetViewSet(ModelViewSet):
     serializer_class = PetSerializer
 
 
-class SizeViewSet(ModelViewSet):
+class SizeViewSet(ReadOnlyModelViewSet):
 
     queryset = Size.objects.all()
     serializer_class = SizeSerializer
 
 
-class BreedViewSet(ModelViewSet):
+class BreedViewSet(ReadOnlyModelViewSet):
 
     queryset = Breed.objects.all().order_by('name')
     serializer_class = BreedSerializer
