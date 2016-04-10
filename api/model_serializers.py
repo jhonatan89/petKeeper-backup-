@@ -34,13 +34,13 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class SizeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Size
-        fields = ('name',)
+        fields = ('id', 'name')
 
 
 class BreedSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Breed
-        fields = ('name',)
+        fields = ('id', 'name')
 
 
 class OfferSerializer(serializers.ModelSerializer):
