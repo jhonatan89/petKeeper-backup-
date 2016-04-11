@@ -20,10 +20,11 @@ class BreedSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id', 'name')
 
 
-class RequestSerializer(serializers.HyperlinkedModelSerializer):
+class RequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Request
-        fields = ('id', 'description', 'start_date', 'end_date', 'open')
+        fields = ('id', 'description', 'start_date', 'end_date', 'open', 'request_Pet')
+        depth = 1
 
 
 class PetSerializer(serializers.HyperlinkedModelSerializer):
