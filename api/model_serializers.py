@@ -1,13 +1,11 @@
 # Django Rest Framework
 from __future__ import unicode_literals
-from rest_framework import serializers
+
 from django.contrib.auth.models import User
+from rest_framework import serializers
 
 # Models
-from api.models import Request, Offer
-from api.models import Pet
-from api.models import Size
-from api.models import Breed
+from api.models import Request, Offer, Pet, Size, Breed, Contact
 
 
 class SizeSerializer(serializers.HyperlinkedModelSerializer):
@@ -37,13 +35,17 @@ class PetSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('name', 'birthDate', 'description', 'size', 'breed')
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    # pets = serializers.PrimaryKeyRelatedField(many=True, queryset=Pet.objects.all())
-    # offers = serializers.PrimaryKeyRelatedField(many=True, queryset=Offer.objects.all())
+class ContactSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Contact
+        fields = ('phone', 'address')
 
+
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'first_name', 'last_name')
+        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'contact')
+        depth = 1
 
 
 class OfferSerializer(serializers.ModelSerializer):

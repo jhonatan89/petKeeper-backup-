@@ -1,6 +1,6 @@
-#others
+# others
 from __future__ import unicode_literals
-#Django
+# Django
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -54,3 +54,8 @@ class Offer(models.Model):
     def __unicode__(self):
         return '%s' % self.description
 
+
+class Contact(models.Model):
+    user = models.OneToOneField(User, related_name='contact')
+    phone = models.CharField(max_length=12)
+    address = models.CharField(max_length=50)
