@@ -4,6 +4,9 @@ from __future__ import unicode_literals
 from django.contrib.auth.models import User
 from django.db import models
 
+from django.contrib.auth.models import User, Group
+from django.db.models.signals import post_save
+
 
 class Breed(models.Model):
     name = models.CharField(max_length=30)
@@ -40,6 +43,7 @@ class Request(models.Model):
     end_date = models.DateTimeField()
     open = models.BooleanField(default=False)
     request_Pet = models.ManyToManyField(Pet)
+    owner = models.ForeignKey(User)
 
     def __unicode__(self):
         return '%s' % self.description
@@ -59,3 +63,13 @@ class Contact(models.Model):
     user = models.OneToOneField(User, related_name='contact')
     phone = models.CharField(max_length=12)
     address = models.CharField(max_length=50)
+
+
+def add_to_default_group(sender, **kwargs):
+    user = kwargs["instance"]
+    if kwargs["created"]:
+        group = Group.objects.get(name='users')
+        user.groups.add(group)
+
+
+post_save.connect(add_to_default_group, sender=User)

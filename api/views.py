@@ -13,7 +13,10 @@ from django.contrib.auth.models import User
 
 # Django Rest Framework
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from rest_framework_extensions.mixins import NestedViewSetMixin
+from rest_framework.decorators import list_route
 
 
 class RequestViewSet(NestedViewSetMixin, ModelViewSet):
@@ -22,6 +25,15 @@ class RequestViewSet(NestedViewSetMixin, ModelViewSet):
     """
     queryset = Request.objects.all()
     serializer_class = RequestSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+    @list_route()
+    def me(self, request):
+        my_requests = self.get_queryset().filter(owner=request.user)
+        data = self.get_serializer(my_requests, many=True).data
+        return Response(data)
 
 
 class PetViewSet(ModelViewSet):
@@ -51,13 +63,13 @@ class OfferViewSet(NestedViewSetMixin, ModelViewSet):
         serializer.save(user=self.request.user)
 
 
-class UserViewSet(ModelViewSet):
+class UserViewSet(ReadOnlyModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-    # Show all users if is superuser
-    def get_queryset(self):
-        if self.request.user.is_superuser:
-            return User.objects.all()
-        else:
-            return User.objects.filter(id=self.request.user.id)
+
+class MeView(APIView):
+    queryset = User.objects.all()
+
+    def get(self, request, format=None):
+        return Response(UserSerializer(request.user).data)
