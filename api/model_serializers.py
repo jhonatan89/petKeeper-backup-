@@ -8,13 +8,13 @@ from rest_framework import serializers
 from api.models import Request, Offer, Pet, Size, Breed, Contact
 
 
-class SizeSerializer(serializers.HyperlinkedModelSerializer):
+class SizeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Size
         fields = ('id', 'name')
 
 
-class BreedSerializer(serializers.HyperlinkedModelSerializer):
+class BreedSerializer(serializers.ModelSerializer):
     class Meta:
         model = Breed
         fields = ('id', 'name')
@@ -27,9 +27,9 @@ class RequestSerializer(serializers.ModelSerializer):
         depth = 1
 
 
-class PetSerializer(serializers.HyperlinkedModelSerializer):
-    breed = BreedSerializer()
-    size = SizeSerializer()
+class PetSerializer(serializers.ModelSerializer):
+    breed = serializers.PrimaryKeyRelatedField(queryset=Breed.objects.all())
+    size = serializers.PrimaryKeyRelatedField(queryset=Size.objects.all())
 
     class Meta:
         model = Pet
