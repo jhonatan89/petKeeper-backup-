@@ -1,1 +1,1 @@
-web: gunicorn petkeeper.wsgi --log-file -
+web: gunicorn petkeeper.wsgi -w 4 --log-file -
