@@ -49,6 +49,12 @@ class UserSerializer(serializers.ModelSerializer):
         depth = 1
 
 
+class ContactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contact
+        fields = ('phone', 'address')
+
+
 class OfferSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
 

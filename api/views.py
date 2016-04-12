@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from api.model_serializers import PetSerializer, OfferSerializer
-from api.model_serializers import RequestSerializer, BreedSerializer, UserSerializer
+from api.model_serializers import RequestSerializer, BreedSerializer, UserSerializer, ContactSerializer
 from api.model_serializers import SizeSerializer
 
 # Models
@@ -17,6 +17,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_extensions.mixins import NestedViewSetMixin
 from rest_framework.decorators import list_route
+from rest_framework import status
 
 
 class RequestViewSet(NestedViewSetMixin, ModelViewSet):
@@ -76,3 +77,10 @@ class MeView(APIView):
 
     def get(self, request, format=None):
         return Response(UserSerializer(request.user).data)
+
+    def put(self, request, format=None):
+        serializer = ContactSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -61,13 +61,15 @@ class Offer(models.Model):
 
 class Contact(models.Model):
     user = models.OneToOneField(User, related_name='contact')
-    phone = models.CharField(max_length=12)
-    address = models.CharField(max_length=50)
+    phone = models.CharField(max_length=12, null=True)
+    address = models.CharField(max_length=50, null=True)
 
 
 def add_to_default_group(sender, **kwargs):
     user = kwargs["instance"]
     if kwargs["created"]:
+        user.contact = Contact()
+        user.contact.save()
         group = Group.objects.get(name='users')
         user.groups.add(group)
 
