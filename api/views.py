@@ -24,7 +24,7 @@ class RequestViewSet(NestedViewSetMixin, ModelViewSet):
     """
     API endpoint that allows requests to be viewed or edited.
     """
-    queryset = Request.objects.all()
+    queryset = Request.objects.filter(open=True).order_by('start_date')
     serializer_class = RequestSerializer
 
     def perform_create(self, serializer):
@@ -32,7 +32,7 @@ class RequestViewSet(NestedViewSetMixin, ModelViewSet):
 
     @list_route()
     def me(self, request):
-        my_requests = self.get_queryset().filter(owner=request.user)
+        my_requests = Request.objects.filter(owner=request.user).order_by('start_date')
         data = self.get_serializer(my_requests, many=True).data
         return Response(data)
 
