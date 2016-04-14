@@ -33,7 +33,7 @@ class PetSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Pet
-        fields = ('name', 'birthDate', 'description', 'size', 'breed')
+        fields = ('id', 'name', 'birthDate', 'description', 'size', 'breed')
 
 
 class ContactSerializer(serializers.HyperlinkedModelSerializer):
