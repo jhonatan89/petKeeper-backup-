@@ -38,7 +38,7 @@ class Pet(models.Model):
 
 
 class Request(models.Model):
-    description = models.CharField(max_length=400)
+    description = models.CharField(max_length=400, null=True, blank=True)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     open = models.BooleanField(default=False)

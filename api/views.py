@@ -78,7 +78,7 @@ class MeView(APIView):
     def get(self, request, format=None):
         return Response(UserSerializer(request.user).data)
 
-    def put(self, request, format=None):
+    def post(self, request, format=None):
         serializer = ContactSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(user=request.user)
