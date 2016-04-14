@@ -21,10 +21,11 @@ class BreedSerializer(serializers.ModelSerializer):
 
 
 class RequestSerializer(serializers.ModelSerializer):
+    owner = serializers.StringRelatedField()
+
     class Meta:
         model = Request
-        fields = ('id', 'description', 'start_date', 'end_date', 'open', 'request_Pet')
-        depth = 1
+        fields = ('id', 'description', 'start_date', 'end_date', 'open', 'request_Pet', 'owner')
 
 
 class PetSerializer(serializers.ModelSerializer):
