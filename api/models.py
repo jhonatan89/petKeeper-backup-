@@ -28,7 +28,7 @@ class Size(models.Model):
 class Pet(models.Model):
     name = models.CharField(max_length=30)
     birthDate = models.DateField()
-    description = models.CharField(max_length=400)
+    description = models.CharField(max_length=400, null=True, blank=True)
     size = models.ForeignKey(Size)
     breed = models.ForeignKey(Breed)
     user = models.ForeignKey(User, default=1)

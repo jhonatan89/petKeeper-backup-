@@ -22,11 +22,11 @@ class BreedSerializer(serializers.ModelSerializer):
 
 class RequestSerializer(serializers.ModelSerializer):
     owner = serializers.StringRelatedField()
+    request_Pet = serializers.PrimaryKeyRelatedField(queryset=Pet.objects.all(), many=True)
 
     class Meta:
         model = Request
         fields = ('id', 'description', 'start_date', 'end_date', 'open', 'request_Pet', 'owner')
-        depth = 1
 
 
 class PetSerializer(serializers.ModelSerializer):
@@ -59,6 +59,7 @@ class ContactSerializer(serializers.ModelSerializer):
 
 class OfferSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
+    request = serializers.PrimaryKeyRelatedField(queryset=Request.objects.all())
 
     class Meta:
         model = Offer
