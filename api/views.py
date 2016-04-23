@@ -66,6 +66,12 @@ class OfferViewSet(NestedViewSetMixin, ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
+    def perform_update(self, serializer):
+        serializer.save(user=self.request.user)
+        if self.request.POST['accepted']:
+            request_obj = Request.objects.get(pk=self.request.POST['request'])
+            request_obj.open = False
+            request_obj.save()
 
 class UserViewSet(ReadOnlyModelViewSet):
     queryset = User.objects.all()
