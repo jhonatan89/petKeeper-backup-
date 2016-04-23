@@ -21,7 +21,7 @@ class BreedSerializer(serializers.ModelSerializer):
 
 
 class RequestSerializer(serializers.ModelSerializer):
-    owner = serializers.StringRelatedField()
+    owner = serializers.PrimaryKeyRelatedField(read_only=True)
     request_Pet = serializers.PrimaryKeyRelatedField(queryset=Pet.objects.all(), many=True)
 
     class Meta:
