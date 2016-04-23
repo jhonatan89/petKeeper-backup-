@@ -54,6 +54,7 @@ class Offer(models.Model):
     price = models.FloatField()
     user = models.ForeignKey(User)
     request = models.ForeignKey(Request)
+    accepted = models.NullBooleanField()
 
     def __unicode__(self):
         return '%s' % self.description
