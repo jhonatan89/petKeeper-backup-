@@ -8,6 +8,19 @@ from rest_framework import serializers
 from api.models import Request, Offer, Pet, Size, Breed, Contact
 
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'contact')
+        depth = 1
+
+
+class UserShortSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'email', 'first_name', 'last_name')
+
+
 class SizeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Size
@@ -21,12 +34,13 @@ class BreedSerializer(serializers.ModelSerializer):
 
 
 class RequestSerializer(serializers.ModelSerializer):
-    owner = serializers.PrimaryKeyRelatedField(read_only=True)
+    owner = UserShortSerializer(read_only=True)
     request_Pet = serializers.PrimaryKeyRelatedField(queryset=Pet.objects.all(), many=True)
 
     class Meta:
         model = Request
         fields = ('id', 'description', 'start_date', 'end_date', 'open', 'request_Pet', 'owner')
+        #depth = 1
 
 
 class PetSerializer(serializers.ModelSerializer):
@@ -42,13 +56,6 @@ class ContactSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Contact
         fields = ('phone', 'address')
-
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'contact')
-        depth = 1
 
 
 class ContactSerializer(serializers.ModelSerializer):
