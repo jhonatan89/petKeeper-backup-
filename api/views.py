@@ -48,6 +48,11 @@ class PetViewSet(ModelViewSet):
         return Pet.objects.filter(user=self.request.user)
 
 
+class PetRequestViewSet(NestedViewSetMixin, ReadOnlyModelViewSet):
+    queryset = Pet.objects.all()
+    serializer_class = PetSerializer
+
+
 class SizeViewSet(ReadOnlyModelViewSet):
     queryset = Size.objects.all()
     serializer_class = SizeSerializer
@@ -72,6 +77,7 @@ class OfferViewSet(NestedViewSetMixin, ModelViewSet):
             request_obj = Request.objects.get(pk=self.request.POST['request'])
             request_obj.open = False
             request_obj.save()
+
 
 class UserViewSet(ReadOnlyModelViewSet):
     queryset = User.objects.all()

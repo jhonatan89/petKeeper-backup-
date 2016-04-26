@@ -40,7 +40,6 @@ class RequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Request
         fields = ('id', 'description', 'start_date', 'end_date', 'open', 'request_Pet', 'owner')
-        #depth = 1
 
 
 class PetSerializer(serializers.ModelSerializer):
