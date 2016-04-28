@@ -1,12 +1,13 @@
 # Selializers
 from __future__ import unicode_literals
 
+import rest_framework
 from api.model_serializers import PetSerializer, OfferSerializer
 from api.model_serializers import RequestSerializer, BreedSerializer, UserSerializer, ContactSerializer
 from api.model_serializers import SizeSerializer
 
 # Models
-from api.models import Request, Breed, Offer
+from api.models import Request, Breed, Offer, Contact
 from api.models import Pet
 from api.models import Size
 from django.contrib.auth.models import User
@@ -86,13 +87,15 @@ class UserViewSet(ReadOnlyModelViewSet):
 
 class MeView(APIView):
     queryset = User.objects.all()
+    permission_classes = [rest_framework.permissions.AllowAny]
 
     def get(self, request, format=None):
         return Response(UserSerializer(request.user).data)
 
     def post(self, request, format=None):
-        serializer = ContactSerializer(data=request.data)
+        contact = Contact.objects.get(user=request.user)
+        serializer = ContactSerializer(contact, data=request.data)
         if serializer.is_valid():
-            serializer.save(user=request.user)
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
