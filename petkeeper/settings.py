@@ -138,6 +138,12 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
     'fields': 'id, name, email, first_name, middle_name, last_name'
 }
 
+# SendGrid Configuration
+EMAIL_BACKEND = "sgbackend.SendGridBackend"
+SENDGRID_USER = os.getenv('SENDGRID_USERNAME')
+SENDGRID_PASSWORD = os.getenv('SENDGRID_PASSWORD')
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 

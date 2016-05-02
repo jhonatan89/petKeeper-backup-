@@ -52,7 +52,7 @@ class Request(models.Model):
 class Offer(models.Model):
     description = models.CharField(max_length=400)
     price = models.FloatField()
-    user = models.ForeignKey(User)
+    keeper = models.ForeignKey(User)
     request = models.ForeignKey(Request)
     accepted = models.NullBooleanField()
 

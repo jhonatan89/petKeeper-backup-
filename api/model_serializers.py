@@ -64,9 +64,9 @@ class ContactSerializer(serializers.ModelSerializer):
 
 
 class OfferSerializer(serializers.ModelSerializer):
-    user = UserShortSerializer(read_only=True)
+    keeper = UserShortSerializer(read_only=True)
     request = serializers.PrimaryKeyRelatedField(queryset=Request.objects.all())
 
     class Meta:
         model = Offer
-        fields = ('id', 'description', 'price', 'request', 'accepted', 'user')
+        fields = ('id', 'description', 'price', 'request', 'accepted', 'keeper')
