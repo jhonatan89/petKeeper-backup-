@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> </head>
+<body>
+<h1>Hola, {{ keeper.first_name }} {{ keeper.last_name }}! </h1>
+<h3>Has sido seleccionado para cuidar a una mascota</h3>
+<p><strong>!Entra a nuestra aplicación para ponerte en contacto con el propietario de la mascota!</strong></p>
+
+<div class="row bg-success">
+    <div class="col-xs-12 col-md-8">
+    <p><strong>Propietario:</strong> {{ request.owner.first_name }}</p>
+    <p><strong>Cantidad de mascotas:</strong> {{ request.owner.request_Pet | length }}</p>
+    </div>
+</div>
+
+
+<h5>Contáctanos:</h5>
+
+<div class="row">
+    <div class="col-xs-6 col-md-4"><a href="http://facebook.com" align="center" class="float-center">Facebook</a></div>
+</div>
+<div class="row">
+    <div class="col-xs-6 col-md-4"><a href="http://twitter.com" align="center" class="float-center">Twitter</a></div></div>
+<div class="row">
+    <div class="col-xs-6 col-md-4"><a href="http://google.com" align="center" class="float-center">Google+</a></div>
+</div>
+
+<h5>Más información:</h5>
+<p>Teléfono: 310 5537078</p>
+<p>Email: <a href="mailto:petkeeper.services@gmail.com">petkeeper.services@gmail.com</a></p>
+</body>
+
+</html>

@@ -1,13 +1,14 @@
 # Selializers
 from __future__ import unicode_literals
 import rest_framework
-from api.model_serializers import PetSerializer, OfferSerializer
+from api.model_serializers import PetSerializer, OfferSerializer, UserShortSerializer
 from api.model_serializers import RequestSerializer, BreedSerializer, UserSerializer, ContactSerializer
 from api.model_serializers import SizeSerializer
 # Models
 from api.models import Request, Breed, Offer, Contact
 from api.models import Pet
 from api.models import Size
+from api.send_email import send_petkeeper_email
 from django.contrib.auth.models import User
 # Django Rest Framework
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
@@ -16,8 +17,6 @@ from rest_framework.response import Response
 from rest_framework_extensions.mixins import NestedViewSetMixin
 from rest_framework.decorators import list_route
 from rest_framework import status
-# SendGrid
-from django.core.mail import send_mail
 
 
 class RequestViewSet(NestedViewSetMixin, ModelViewSet):
@@ -73,13 +72,16 @@ class OfferViewSet(NestedViewSetMixin, ModelViewSet):
 
     def perform_update(self, serializer):
         serializer.save()
+        # If offer is accepted
         if self.request.POST['accepted']:
             request_obj = Request.objects.get(pk=self.request.POST['request'])
             request_obj.open = False
             request_obj.save()
-            keeper = self.request.POST['keeper']
-            send_mail("Confirmacion PetKeeper", "Eres seleccionado para cuidar a una mascota",
-                      "PetKeeper <petkeeper.services@gmail.com>", [keeper.email])
+            offer = self.get_object()
+            keeper = offer.keeper
+            context = {'keeper': keeper, 'request': request_obj}
+            # Send email context -> info for template, email and template email.
+            send_petkeeper_email(context, keeper.email, "conf_keeper_email.html")
 
 
 class UserViewSet(ReadOnlyModelViewSet):
