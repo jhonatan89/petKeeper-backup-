@@ -15,8 +15,9 @@ from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_extensions.mixins import NestedViewSetMixin
-from rest_framework.decorators import list_route
+from rest_framework.decorators import list_route, detail_route
 from rest_framework import status
+from django.core.files import File
 
 
 class RequestViewSet(NestedViewSetMixin, ModelViewSet):
@@ -45,6 +46,14 @@ class PetViewSet(ModelViewSet):
 
     def get_queryset(self):
         return Pet.objects.filter(user=self.request.user)
+
+    @detail_route(methods=['post'])
+    def picture(self, request, pk=None):
+        file_obj = File(request.FILES.get('file'))
+        pet = self.get_object()
+        pet.picture.save('avatar.jpg', file_obj)
+        data = '%s' % pet.picture.url
+        return Response(data=data)
 
 
 class PetRequestViewSet(NestedViewSetMixin, ReadOnlyModelViewSet):

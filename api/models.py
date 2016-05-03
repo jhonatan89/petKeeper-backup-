@@ -25,6 +25,22 @@ class Size(models.Model):
         return '%s' % self.name
 
 
+def upload_to_pet(instance, filename):
+    return '/'.join([
+        'user',
+        '%d' % instance.user.pk,
+        'pets',
+        '%d' % instance.pk,
+        '%s' % filename])
+
+
+def upload_to_profile(instance, filename):
+    return '/'.join([
+        'user',
+        '%d' % instance.user.pk,
+        '%s' % filename])
+
+
 class Pet(models.Model):
     name = models.CharField(max_length=30)
     birthDate = models.DateField()
@@ -32,6 +48,7 @@ class Pet(models.Model):
     size = models.ForeignKey(Size)
     breed = models.ForeignKey(Breed)
     user = models.ForeignKey(User, default=1)
+    picture = models.ImageField('logo', upload_to=upload_to_pet)
 
     def __unicode__(self):
         return '%s' % self.name
@@ -64,6 +81,7 @@ class Contact(models.Model):
     user = models.OneToOneField(User, related_name='contact')
     phone = models.CharField(max_length=12, null=True)
     address = models.CharField(max_length=50, null=True)
+    picture = models.ImageField('logo', upload_to=upload_to_profile)
 
 
 def add_to_default_group(sender, **kwargs):
