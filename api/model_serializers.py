@@ -48,7 +48,8 @@ class PetSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Pet
-        fields = ('id', 'name', 'birthDate', 'description', 'size', 'breed')
+        fields = ('id', 'name', 'birthDate', 'description', 'size', 'breed', 'picture')
+        read_only_fields = ('picture',)
 
 
 class ContactSerializer(serializers.HyperlinkedModelSerializer):
