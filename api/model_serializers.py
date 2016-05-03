@@ -61,7 +61,8 @@ class ContactSerializer(serializers.HyperlinkedModelSerializer):
 class ContactSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contact
-        fields = ('phone', 'address')
+        fields = ('phone', 'address', 'picture')
+        read_only_fields = ('picture',)
 
 
 class OfferSerializer(serializers.ModelSerializer):
