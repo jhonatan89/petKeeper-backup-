@@ -30,6 +30,9 @@ class RequestViewSet(NestedViewSetMixin, ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
+    def get_queryset(self):
+        return Request.objects.filter(open=True).exclude(owner=self.request.user).order_by('start_date')
+
     @list_route()
     def me(self, request):
         my_requests = Request.objects.filter(owner=request.user).order_by('start_date')
