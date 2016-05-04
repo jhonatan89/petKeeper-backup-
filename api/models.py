@@ -83,6 +83,9 @@ class Contact(models.Model):
     address = models.CharField(max_length=50, null=True)
     picture = models.ImageField('logo', upload_to=upload_to_profile, null=True, blank=True)
 
+    def __unicode__(self):
+        return '%s' % self.user
+
 
 def add_to_default_group(sender, **kwargs):
     user = kwargs["instance"]
@@ -91,6 +94,7 @@ def add_to_default_group(sender, **kwargs):
         user.contact.save()
         group = Group.objects.get(name='users')
         user.groups.add(group)
+        Contact.objects.get_or_create(user=user)
 
 
 post_save.connect(add_to_default_group, sender=User)
