@@ -24,7 +24,7 @@ from rest_framework_extensions.routers import NestedRouterMixin
 
 # Views
 from api.views import RequestViewSet, OfferViewSet, UserViewSet, PetViewSet, SizeViewSet, BreedViewSet, MeView, \
-    PetRequestViewSet
+    PetRequestViewSet, PictureMeView
 
 
 class NestedDefaultRouter(NestedRouterMixin, DefaultRouter):
@@ -54,4 +54,5 @@ urlpatterns = [
     url(r'^accounts/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^auth/', include('rest_framework_social_oauth2.urls')),
     url(r'^api/me/$', view=MeView.as_view(), name='me'),
+    url(r'^api/me/picture/$', view=PictureMeView.as_view(), name='me_picture'),
 ]

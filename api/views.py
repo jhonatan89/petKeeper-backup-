@@ -100,15 +100,31 @@ class UserViewSet(ReadOnlyModelViewSet):
 
 class MeView(APIView):
     queryset = User.objects.all()
-    permission_classes = [rest_framework.permissions.AllowAny]
+    permission_classes = [rest_framework.permissions.IsAuthenticated]
 
     def get(self, request, format=None):
         return Response(UserSerializer(request.user).data)
 
     def post(self, request, format=None):
-        contact = Contact.objects.get(user=request.user)
-        serializer = ContactSerializer(contact, data=request.data)
+        try:
+            contact = Contact.objects.get(user=request.user)
+            serializer = ContactSerializer(contact, data=request.data)
+        except Contact.DoesNotExist:
+            serializer = ContactSerializer(data=request.data)
+
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PictureMeView(APIView):
+    queryset = User.objects.none()
+    permission_classes = [rest_framework.permissions.IsAuthenticated]
+
+    def post(self, request):
+        file_obj = File(request.FILES.get('file'))
+        contact = Contact.objects.get(user=request.user)
+        contact.picture.save('avatar.jpg', file_obj)
+        data = '%s' % contact.picture.url
+        return Response(data=data)
