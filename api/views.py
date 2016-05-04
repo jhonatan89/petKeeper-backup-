@@ -82,11 +82,11 @@ class OfferViewSet(NestedViewSetMixin, ModelViewSet):
     def perform_update(self, serializer):
         serializer.save()
         # If offer is accepted
-        if self.request.POST['accepted']:
-            request_obj = Request.objects.get(pk=self.request.POST['request'])
+        offer = self.get_object()
+        if offer.accepted:
+            request_obj = Request.objects.get(pk=offer.request.pk)
             request_obj.open = False
             request_obj.save()
-            offer = self.get_object()
             keeper = offer.keeper
             context = {'keeper': keeper, 'request': request_obj}
             # Send email context -> info for template, email and template email.
