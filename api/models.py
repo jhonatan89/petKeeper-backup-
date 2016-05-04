@@ -48,7 +48,7 @@ class Pet(models.Model):
     size = models.ForeignKey(Size)
     breed = models.ForeignKey(Breed)
     user = models.ForeignKey(User, default=1)
-    picture = models.ImageField('logo', upload_to=upload_to_pet)
+    picture = models.ImageField('logo', upload_to=upload_to_pet, null=True, blank=True)
 
     def __unicode__(self):
         return '%s' % self.name
@@ -81,7 +81,7 @@ class Contact(models.Model):
     user = models.OneToOneField(User, related_name='contact')
     phone = models.CharField(max_length=12, null=True)
     address = models.CharField(max_length=50, null=True)
-    picture = models.ImageField('logo', upload_to=upload_to_profile)
+    picture = models.ImageField('logo', upload_to=upload_to_profile, null=True, blank=True)
 
 
 def add_to_default_group(sender, **kwargs):
