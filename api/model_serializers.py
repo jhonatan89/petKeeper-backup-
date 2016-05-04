@@ -66,7 +66,7 @@ class ContactSerializer(serializers.ModelSerializer):
 
 
 class OfferSerializer(serializers.ModelSerializer):
-    keeper = UserShortSerializer(read_only=True)
+    keeper = UserSerializer(read_only=True)
     request = serializers.PrimaryKeyRelatedField(queryset=Request.objects.all())
 
     class Meta:

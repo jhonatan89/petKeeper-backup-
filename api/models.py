@@ -6,6 +6,7 @@ from django.db import models
 
 from django.contrib.auth.models import User, Group
 from django.db.models.signals import post_save
+from uuid import uuid4
 
 
 class Breed(models.Model):
@@ -30,8 +31,7 @@ def upload_to_pet(instance, filename):
         'user',
         '%d' % instance.user.pk,
         'pets',
-        '%d' % instance.pk,
-        '%s' % filename])
+        '%s.jpg' % uuid4()])
 
 
 def upload_to_profile(instance, filename):
@@ -48,7 +48,7 @@ class Pet(models.Model):
     size = models.ForeignKey(Size)
     breed = models.ForeignKey(Breed)
     user = models.ForeignKey(User, default=1)
-    picture = models.ImageField('logo', upload_to=upload_to_pet, null=True, blank=True)
+    picture = models.ImageField('picture', upload_to=upload_to_pet, null=True, blank=True)
 
     def __unicode__(self):
         return '%s' % self.name
@@ -81,7 +81,7 @@ class Contact(models.Model):
     user = models.OneToOneField(User, related_name='contact')
     phone = models.CharField(max_length=12, null=True)
     address = models.CharField(max_length=50, null=True)
-    picture = models.ImageField('logo', upload_to=upload_to_profile, null=True, blank=True)
+    picture = models.ImageField('picture', upload_to=upload_to_profile, null=True, blank=True)
 
     def __unicode__(self):
         return '%s' % self.user
