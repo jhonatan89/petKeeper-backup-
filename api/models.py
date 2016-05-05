@@ -65,6 +65,9 @@ class Request(models.Model):
     def __unicode__(self):
         return '%s' % self.description
 
+    def get_duration_days(self):
+        return (self.end_date - self.start_date).days
+
 
 class Offer(models.Model):
     description = models.CharField(max_length=400)

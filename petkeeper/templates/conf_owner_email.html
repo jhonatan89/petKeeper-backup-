@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+<header style="text-align: center;" role="banner" >
+    <img src="https://s3.amazonaws.com/petkeeper/assets/petkeeper_logo.png" style="width: 100%; height: 60%;"/>
+</header>
+<hr size="2" color="#6AA8A5" />
+<h1>Hola, {{ request.owner.first_name }} {{ request.owner.last_name }}! </h1>
+<h3>El keeper que seleccionaste ya fue notificado, puedes contactarte con él</h3>
+<br>
+
+<div class="row" style="font-size:large;">
+    <div class="col-xs-12 col-md-8">
+    <p><strong>Keeper:</strong> {{ keeper.first_name }} {{ keeper.last_name }} </p>
+    <p><strong>Email:</strong><a href="mailto:{{ keeper.email }}"> {{ keeper.email }}</a></p>
+    {% if keeper.contact %}
+    <p><strong>Teléfono:</strong> {{ keeper.contact.phone }} </p>
+    {% endif %}
+        <br>
+    <p>Gracias por confiar en PetKeeper!</p>
+    </div>
+
+</div>
+
+<div class="col-xs-12 col-md-8">
+    <h3>Detalles de la reserva</h3>
+    <ul>
+        <li>Fecha inicio: {{ request.start_date }}</li>
+        <li>Fecha final : {{ request.end_date }}</li>
+        <li>Cantidad de mascotas: {{ request.request_Pet.count }}</li>
+        <li>Cantidad de noches: {{ time  }}</li>
+        {% widthratio offer.price 1 request.request_Pet.count as priceperday %}
+        <li>Precio por dia: {{ priceperday  }} COP </li>
+        <li><strong>Subtotal:</strong> {% widthratio priceperday 1 time %} COP </li> </li>
+
+
+    </ul>
+</div>
+<hr>
+    <h4>Contáctanos:</h4>
+    <p>Teléfono: +57 310 5537078</p>
+    <p>Email: <a href="mailto:petkeeper.services@gmail.com">petkeeper.services@gmail.com</a></p>
+<hr>
+
+</body>
+
+</html>

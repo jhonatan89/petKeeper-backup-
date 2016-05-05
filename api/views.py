@@ -91,9 +91,11 @@ class OfferViewSet(NestedViewSetMixin, ModelViewSet):
             request_obj.open = False
             request_obj.save()
             keeper = offer.keeper
-            context = {'keeper': keeper, 'request': request_obj}
-            # Send email context -> info for template, email and template email.
+            context = {'keeper': keeper, 'request': request_obj, 'offer': offer,
+                       'time': request_obj.get_duration_days()}
+            # Send emails context -> info for template, email and template email.
             send_petkeeper_email(context, keeper.email, "conf_keeper_email.html")
+            send_petkeeper_email(context, request_obj.owner.email, "conf_owner_email.html")
 
 
 class UserViewSet(ReadOnlyModelViewSet):
