@@ -82,9 +82,10 @@ class Offer(models.Model):
 
 class Contact(models.Model):
     user = models.OneToOneField(User, related_name='contact')
-    phone = models.CharField(max_length=12, null=True)
-    address = models.CharField(max_length=50, null=True)
+    phone = models.CharField(max_length=12, null=True, blank=True)
+    address = models.CharField(max_length=50, null=True, blank=True)
     picture = models.ImageField('picture', upload_to=upload_to_profile, null=True, blank=True)
+    about = models.TextField(max_length=400, null=True, blank=True)
 
     def __unicode__(self):
         return '%s' % self.user
