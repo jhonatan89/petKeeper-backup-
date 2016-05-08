@@ -33,13 +33,30 @@ class BreedSerializer(serializers.ModelSerializer):
         fields = ('id', 'name')
 
 
+class PetNestedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Pet
+        fields = ('id', 'name', 'birthDate', 'description', 'size', 'breed', 'picture')
+        read_only_fields = ('name', 'birthDate', 'description', 'size', 'breed', 'picture')
+        depth = 1
+        extra_kwargs = {'id': {'read_only': False}}
+
+
 class RequestSerializer(serializers.ModelSerializer):
     owner = UserShortSerializer(read_only=True)
-    request_Pet = serializers.PrimaryKeyRelatedField(queryset=Pet.objects.all(), many=True)
+    request_Pet = PetNestedSerializer(many=True)
 
     class Meta:
         model = Request
         fields = ('id', 'description', 'start_date', 'end_date', 'open', 'request_Pet', 'owner')
+
+    def create(self, validated_data):
+        pets = validated_data.pop('request_Pet')
+        request = Request.objects.create(**validated_data)
+        for pet in pets:
+            tmp = Pet.objects.get(pk=pet.get('id'))
+            request.request_Pet.add(tmp)
+        return request
 
 
 class PetSerializer(serializers.ModelSerializer):
