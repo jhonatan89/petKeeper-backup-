@@ -65,3 +65,6 @@ target/
 
 #Procfile Windows
 Procfile.windows
+
+#SonarScanner
+.sonar
