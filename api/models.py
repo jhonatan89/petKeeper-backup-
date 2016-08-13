@@ -94,11 +94,10 @@ class Contact(models.Model):
 def add_to_default_group(sender, **kwargs):
     user = kwargs["instance"]
     if kwargs["created"]:
-        user.contact = Contact()
-        user.contact.save()
-        group = Group.objects.get(name='users')
-        user.groups.add(group)
         Contact.objects.get_or_create(user=user)
+        if not user.is_superuser:
+            group = Group.objects.get(name='users')
+            user.groups.add(group)
 
 
 post_save.connect(add_to_default_group, sender=User)
