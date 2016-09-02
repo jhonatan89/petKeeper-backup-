@@ -1,10 +1,9 @@
 from django.conf.urls import url
-
 from rest_framework.routers import DefaultRouter
 from rest_framework_extensions.routers import NestedRouterMixin
 
-from api.views import RequestViewSet, OfferViewSet, UserViewSet, PetViewSet, SizeViewSet, BreedViewSet, MeView, \
-    PetRequestViewSet, PictureMeView
+from api.views import (RequestViewSet, OfferViewSet, UserViewSet, PetViewSet, SizeViewSet, BreedViewSet, MeView,
+                       PetRequestViewSet, PictureMeView)
 
 
 class NestedDefaultRouter(NestedRouterMixin, DefaultRouter):

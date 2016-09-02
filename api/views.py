@@ -1,23 +1,19 @@
-# Selializers
 from __future__ import unicode_literals
+
 import rest_framework
-from api.model_serializers import PetSerializer, OfferSerializer, UserShortSerializer
-from api.model_serializers import RequestSerializer, BreedSerializer, UserSerializer, ContactSerializer
-from api.model_serializers import SizeSerializer
-# Models
-from api.models import Request, Breed, Offer, Contact
-from api.models import Pet
-from api.models import Size
-from api.send_email import send_petkeeper_email
 from django.contrib.auth.models import User
-# Django Rest Framework
-from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework_extensions.mixins import NestedViewSetMixin
-from rest_framework.decorators import list_route, detail_route
-from rest_framework import status
 from django.core.files import File
+from rest_framework import status
+from rest_framework.decorators import list_route, detail_route
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
+from rest_framework_extensions.mixins import NestedViewSetMixin
+
+from api.models import Request, Breed, Offer, Contact, Size, Pet
+from api.serializers import (RequestSerializer, BreedSerializer, UserSerializer, ContactSerializer, SizeSerializer,
+                             PetSerializer, OfferSerializer)
+from api.utils import send_petkeeper_email
 
 
 class RequestViewSet(NestedViewSetMixin, ModelViewSet):

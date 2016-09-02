@@ -1,10 +1,8 @@
-# Django Rest Framework
 from __future__ import unicode_literals
 
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-# Models
 from api.models import Request, Offer, Pet, Size, Breed, Contact
 
 
@@ -66,12 +64,6 @@ class PetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pet
         fields = ('id', 'name', 'birthDate', 'description', 'size', 'breed', 'picture')
-
-
-class ContactSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Contact
-        fields = ('phone', 'address')
 
 
 class ContactSerializer(serializers.ModelSerializer):

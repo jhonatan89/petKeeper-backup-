@@ -1,0 +1,373 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Apushi">
+
+    <title>Hauhau</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="{% static 'css/stylish-portfolio.css' %}" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="{% static 'font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <a id="menu-toggle" href="#" class="btn btn-dark btn-lg toggle"><i class="fa fa-bars"></i></a>
+    <nav id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <a id="menu-close" href="#" class="btn btn-light btn-lg pull-right toggle"><i class="fa fa-times"></i></a>
+            <li class="sidebar-brand">
+                <a href="#top"  onclick = $("#menu-close").click(); >Hauhau</a>
+            </li>
+            <li>
+                <a href="#top" onclick = $("#menu-close").click(); >Inicio</a>
+            </li>
+            <li>
+                <a href="#services" onclick = $("#menu-close").click(); >¿Cómo Funciona?</a>
+            </li>
+            <li>
+                <a href="#portfolio" onclick = $("#menu-close").click(); >¿Por qué elegirnos?</a>
+            </li>
+            <li>
+                <a href="#testimonials" onclick = $("#menu-close").click(); >Testimonios</a>
+            </li>
+            <li>
+                <a href="#contact" onclick = $("#menu-close").click(); >Contáctenos</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Header -->
+    <header id="top" class="header">
+        {% if msg %}
+        <div class="alert alert-success alert-dismissible col-lg-12" role="alert" style="font-size: large">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <strong>Enhorabuena!</strong> Hemos registrado tu correo electronico, pronto sabrás de nuestro lanzamiento!
+        </div>
+        {% endif %}
+        <div class="text-vertical-center">
+            <h1>Hauhau</h1>
+            <h2>Una gran Familia</h2>
+            <br>
+            <a href="#contact" class="btn btn-dark btn-lg">¡Inscríbete ahora!</a>
+            <h3><i>"Conectamos cuidadores de mascotas con personas que necesitan una mano con su peludito"</i></h3>
+        </div>
+    </header>
+
+    <!-- Services -->
+    <!-- The circle icons use Font Awesome's stacked icon classes. For more information, visit http://fontawesome.io/examples/ -->
+    <section id="services" class="services bg-primary">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-lg-10 col-lg-offset-1">
+                    <h2>¿Cómo Funciona?</h2>
+                    <hr class="small">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6">
+                            <div class="service-item">
+                                <span class="fa-stack fa-4x">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-calendar fa-stack-1x text-primary"></i>
+                            </span>
+                                <h4>
+                                    <strong>Crea una solicitud para que alguien cuide tu amiguito</strong>
+                                </h4>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <div class="service-item">
+                                <span class="fa-stack fa-4x">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-check-circle fa-stack-1x text-primary"></i>
+                            </span>
+                                <h4>
+                                    <strong>Recibe propuestas y selecciona al cuidador de tu preferencia</strong>
+                                </h4>
+                               <!-- <a href="#" class="btn btn-light">Learn More</a> -->
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <div class="service-item">
+                                <span class="fa-stack fa-4x">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-paw fa-stack-1x text-primary"></i>
+                            </span>
+                                <h4>
+                                    <strong>Tu Amiguito estará feliz y conocerá nuevos amigos</strong>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.row (nested) -->
+                </div>
+                <!-- /.col-lg-10 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+    </section>
+
+
+    <!-- Portfolio -->
+    <section id="portfolio" class="portfolio">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1 text-center">
+                    <h2>¿Por qué elegirnos?</h2>
+                    <hr class="small">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="portfolio-item">
+                                <a href="#contact">
+                                    <img class="img-portfolio img-responsive" src="{% static 'img/friendly.jpg' %}">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="portfolio-item">
+                                <div class="feature">
+                                    <h2>Viaja Tranquilo</h2>
+                                    <h4>Sea por trabajo o por placer, viaja sin preocupaciones sabiendo que tu mascota está en buenas manos.</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="portfolio-item">
+                                <a href="#contact">
+                                    <img class="img-portfolio img-responsive" src="{% static 'img/corgi.jpg' %}">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="portfolio-item">
+                                <div class="feature">
+                                    <h2>Recibe el mejor cuidado</h2>
+                                    <h4>Tu mascota se sentirá como en casa al estar bajo el cuidado de personas amantes de los animales.</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="portfolio-item">
+                                <a href="#contact">
+                                    <img class="img-portfolio img-responsive" src="{% static 'img/portfolio-1.jpg' %}">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="portfolio-item">
+                                <div class="feature">
+                                    <h2>Monetiza tu tiempo libre</h2>
+                                    <h4>Si eres amante de los animales y quisieras cuidar a uno por unos cuantos días, es la manera perfecta de hacerlo y ganar dinero.</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.row (nested)
+                    <!--<a href="#" class="btn btn-dark">View More Items</a> -->
+                </div>
+                <!-- /.col-lg-10 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+    </section>
+
+        <!-- Callout -->
+    <aside class="callout">
+        <div class="text-vertical-center">
+            <h1>Tu mascota lo merece!</h1>
+             <a href="#contact" class="btn btn-dark btn-lg">¡Inscríbete ahora!</a>
+        </div>
+    </aside>
+
+
+     <!-- About -->
+    <section id="testimonials" class="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h1>Testimonios</h1>
+                    <div class="col-md-6">
+                        <h4><i class="fa fa-quote-left fa-3x" aria-hidden="true"></i>  Mis gatos siempre se deprimen cuando me voy de viaje porque solo mi mamá puede cuidarlos y no les da mucho cariño.
+                        Sería genial poder encontrar a alguien que además de estadía les diera cariño.</h4>
+                        <span class="fa-stack fa-2x">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-user fa-stack-1x text-muted"></i>                               
+                         </span>
+                         <h5> Paula Gavíria</h5>
+                    </div>
+                    <div class="col-md-6">
+                        <h4><i class="fa fa-quote-left fa-3x" aria-hidden="true"></i>  Pierdo mucho tiempo llamando a mis amigos para que cuiden a mi perrita Luna, hasta el punto que en ocasiones he
+                         tenido que dejarla solita en casa.</h4>
+                         <span class="fa-stack fa-2x">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-user fa-stack-1x text-muted"></i>                               
+                         </span>
+                         <h5> Marcela Malaver</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.container -->
+     </section>
+
+
+
+
+
+    <!-- Call to Action
+    <aside class="call-to-action bg-primary">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h3>The buttons below are impossible to resist.</h3>
+                    <a href="#" class="btn btn-lg btn-light">Click Me!</a>
+                    <a href="#" class="btn btn-lg btn-dark">Look at Me!</a>
+                </div>
+            </div>
+        </div>
+    </aside>-->
+
+    <!-- Map -->
+    <!--
+    <section id="contact" class="map">
+        <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;aq=0&amp;oq=twitter&amp;sll=28.659344,-81.187888&amp;sspn=0.128789,0.264187&amp;ie=UTF8&amp;hq=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;t=m&amp;z=15&amp;iwloc=A&amp;output=embed"></iframe>
+        <br />
+        <small>
+            <a href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;aq=0&amp;oq=twitter&amp;sll=28.659344,-81.187888&amp;sspn=0.128789,0.264187&amp;ie=UTF8&amp;hq=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;t=m&amp;z=15&amp;iwloc=A"></a>
+        </small>
+        </iframe>
+    </section>
+    -->
+
+    <section id="contact" style="background-color: #efefef; padding: 30px 0 100px 0">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h1>Inscríbete Ahora!</h1>
+                    <form class="form-inline" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input type="email" name="email" class="form-control input-lg" id="email" placeholder="Escribe tu email aquí" required>
+                        </div>
+                        <button type="submit" class="btn-lg btn-success input-lg">Suscribete</button>
+                    </form>
+                    <div style="padding-top: 10px ">
+                        <p><i>Suscríbete a nuestra lista de correo para recibir información sobre el lanzamiento de Hauhau</i></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1 text-center">
+                    <h4><strong>Apushi</strong>
+                    </h4>
+                    <p>Cra 45 22A- 71 <br>Bogotá, Colombia</p>
+                    <ul class="list-unstyled">
+                        <li><i class="fa fa-phone fa-fw"></i> 310 5537078</li>
+                        <li><i class="fa fa-phone fa-fw"></i> 311 2540450</li>
+                        <li><i class="fa fa-envelope-o fa-fw"></i>  <a href="mailto:hauhau.services@gmail.com">hauhau.services@gmail.com</a>
+                        </li>
+                    </ul>
+                    <br>
+                    <ul class="list-inline">
+                        <li>
+                            <a href="#"><i class="fa fa-facebook fa-fw fa-3x"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-twitter fa-fw fa-3x"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-dribbble fa-fw fa-3x"></i></a>
+                        </li>
+                    </ul>
+                    <hr class="small">
+                    <p class="text-muted">Copyright &copy; Apushi 2016</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="{% static 'js/jquery.js' %}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script>
+    // Closes the sidebar menu
+    $("#menu-close").click(function(e) {
+        e.preventDefault();
+        $("#sidebar-wrapper").toggleClass("active");
+    });
+
+    // Opens the sidebar menu
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#sidebar-wrapper").toggleClass("active");
+    });
+
+    // Scrolls to the selected menu item on the page
+    $(function() {
+        $('a[href*=#]:not([href=#])').click(function() {
+            if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') || location.hostname == this.hostname) {
+
+                var target = $(this.hash);
+                target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                if (target.length) {
+                    $('html,body').animate({
+                        scrollTop: target.offset().top
+                    }, 1000);
+                    return false;
+                }
+            }
+        });
+    });
+    </script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-83217807-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</body>
+
+</html>

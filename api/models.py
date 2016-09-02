@@ -1,12 +1,10 @@
-# others
 from __future__ import unicode_literals
-# Django
-from django.contrib.auth.models import User
-from django.db import models
+
+from uuid import uuid4
 
 from django.contrib.auth.models import User, Group
+from django.db import models
 from django.db.models.signals import post_save
-from uuid import uuid4
 
 
 class Breed(models.Model):

@@ -24,4 +24,5 @@ urlpatterns = [
     url(r'^api/', include('api.urls')),
     url(r'^accounts/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^auth/', include('rest_framework_social_oauth2.urls')),
+    url(r'^', include('landing.urls'))
 ]
