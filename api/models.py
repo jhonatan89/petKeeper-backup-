@@ -7,6 +7,22 @@ from uuid import uuid4
 from django.contrib.auth.models import User, Group
 from django.db import models
 from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+
+def upload_to_pet(instance, filename):
+    return '/'.join([
+        'user',
+        '%d' % instance.user.pk,
+        'pets',
+        '%s.jpg' % uuid4()])
+
+
+def upload_to_profile(instance, filename):
+    return '/'.join([
+        'user',
+        '%d' % instance.user.pk,
+        '%s' % filename])
 
 
 class Breed(models.Model):
@@ -24,21 +40,6 @@ class Size(models.Model):
 
     def __unicode__(self):
         return '%s' % self.name
-
-
-def upload_to_pet(instance, filename):
-    return '/'.join([
-        'user',
-        '%d' % instance.user.pk,
-        'pets',
-        '%s.jpg' % uuid4()])
-
-
-def upload_to_profile(instance, filename):
-    return '/'.join([
-        'user',
-        '%d' % instance.user.pk,
-        '%s' % filename])
 
 
 class Pet(models.Model):
@@ -59,13 +60,14 @@ class Request(models.Model):
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     open = models.BooleanField(default=False)
-    request_Pet = models.ManyToManyField(Pet)
+    pets = models.ManyToManyField(Pet)
     owner = models.ForeignKey(User)
 
     def __unicode__(self):
         return '%s' % self.description
 
-    def get_duration_days(self):
+    @property
+    def duration(self):
         return (self.end_date - self.start_date).days
 
 
@@ -91,6 +93,7 @@ class Contact(models.Model):
         return '%s' % self.user
 
 
+@receiver(post_save, sender=User)
 def add_to_default_group(sender, **kwargs):
     user = kwargs["instance"]
     if kwargs["created"]:
@@ -98,6 +101,3 @@ def add_to_default_group(sender, **kwargs):
         if not user.is_superuser:
             group = Group.objects.get(name='users')
             user.groups.add(group)
-
-
-post_save.connect(add_to_default_group, sender=User)

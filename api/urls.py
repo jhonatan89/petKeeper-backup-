@@ -5,7 +5,7 @@ from rest_framework.routers import DefaultRouter
 from rest_framework_extensions.routers import NestedRouterMixin
 
 from api.views import (RequestViewSet, OfferViewSet, UserViewSet, PetViewSet, SizeViewSet, BreedViewSet, MeView,
-                       PetRequestViewSet, PictureMeView)
+                       PetRequestViewSet)
 
 
 class NestedDefaultRouter(NestedRouterMixin, DefaultRouter):
@@ -30,8 +30,7 @@ router.register(r'breeds', BreedViewSet)
 router.register(r'profiles', UserViewSet)
 
 urlpatterns = [
-    url(r'^me/$', view=MeView.as_view(), name='me'),
-    url(r'^me/picture/$', view=PictureMeView.as_view(), name='me_picture'),
+    url(r'^me/$', view=MeView.as_view(), name='me')
 ]
 
 urlpatterns += router.urls

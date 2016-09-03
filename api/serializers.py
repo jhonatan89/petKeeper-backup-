@@ -8,17 +8,18 @@ from rest_framework import serializers
 from api.models import Request, Offer, Pet, Size, Breed, Contact
 
 
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'contact')
-        depth = 1
-
-
 class UserShortSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'email', 'first_name', 'last_name')
+
+
+class ContactSerializer(serializers.ModelSerializer):
+    user = UserShortSerializer(read_only=True)
+
+    class Meta:
+        model = Contact
+        fields = ('phone', 'address', 'picture', 'about', 'user')
 
 
 class SizeSerializer(serializers.ModelSerializer):
@@ -43,15 +44,15 @@ class PetNestedSerializer(serializers.ModelSerializer):
 
 
 class RequestSerializer(serializers.ModelSerializer):
-    owner = UserShortSerializer(read_only=True)
-    request_Pet = PetNestedSerializer(many=True)
+    owner = ContactSerializer(read_only=True)
+    pets = PetNestedSerializer(many=True)
 
     class Meta:
         model = Request
-        fields = ('id', 'description', 'start_date', 'end_date', 'open', 'request_Pet', 'owner')
+        fields = ('id', 'description', 'start_date', 'end_date', 'open', 'pets', 'owner')
 
     def create(self, validated_data):
-        pets = validated_data.pop('request_Pet')
+        pets = validated_data.pop('pets')
         request = Request.objects.create(**validated_data)
         for pet in pets:
             tmp = Pet.objects.get(pk=pet.get('id'))
@@ -68,15 +69,8 @@ class PetSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'birthDate', 'description', 'size', 'breed', 'picture')
 
 
-class ContactSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Contact
-        fields = ('phone', 'address', 'picture', 'about')
-        read_only_fields = ('picture',)
-
-
 class OfferSerializer(serializers.ModelSerializer):
-    keeper = UserSerializer(read_only=True)
+    keeper = ContactSerializer(read_only=True)
     request = serializers.PrimaryKeyRelatedField(queryset=Request.objects.all())
 
     class Meta:

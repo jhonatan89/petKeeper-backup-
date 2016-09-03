@@ -5,15 +5,14 @@ from __future__ import unicode_literals
 import rest_framework
 from django.contrib.auth.models import User
 from django.core.files import File
-from rest_framework import status
 from rest_framework.decorators import list_route, detail_route
+from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from rest_framework_extensions.mixins import NestedViewSetMixin
 
 from api.models import Request, Breed, Offer, Contact, Size, Pet
-from api.serializers import (RequestSerializer, BreedSerializer, UserSerializer, ContactSerializer, SizeSerializer,
+from api.serializers import (RequestSerializer, BreedSerializer, ContactSerializer, SizeSerializer,
                              PetSerializer, OfferSerializer)
 from api.utils import send_petkeeper_email
 
@@ -90,7 +89,7 @@ class OfferViewSet(NestedViewSetMixin, ModelViewSet):
             request_obj.save()
             keeper = offer.keeper
             context = {'keeper': keeper, 'request': request_obj, 'offer': offer,
-                       'time': request_obj.get_duration_days()}
+                       'time': request_obj.duration}
             # Send emails context -> info for template, email and template email.
             send_petkeeper_email(context, keeper.email, "conf_keeper_email.html")
             send_petkeeper_email(context, request_obj.owner.email, "conf_owner_email.html")
@@ -98,36 +97,15 @@ class OfferViewSet(NestedViewSetMixin, ModelViewSet):
 
 class UserViewSet(ReadOnlyModelViewSet):
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = ContactSerializer
 
 
-class MeView(APIView):
-    queryset = User.objects.all()
+class MeView(RetrieveUpdateAPIView):
+    serializer_class = ContactSerializer
     permission_classes = [rest_framework.permissions.IsAuthenticated]
 
-    def get(self, request, format=None):
-        return Response(UserSerializer(request.user).data)
+    def get_queryset(self):
+        return Contact.objects.filter(user=self.request.user)
 
-    def post(self, request, format=None):
-        try:
-            contact = Contact.objects.get(user=request.user)
-            serializer = ContactSerializer(contact, data=request.data)
-        except Contact.DoesNotExist:
-            serializer = ContactSerializer(data=request.data)
-
-        if serializer.is_valid():
-            serializer.save(user=request.user)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class PictureMeView(APIView):
-    queryset = User.objects.none()
-    permission_classes = [rest_framework.permissions.IsAuthenticated]
-
-    def post(self, request):
-        file_obj = File(request.FILES.get('file'))
-        contact = Contact.objects.get(user=request.user)
-        contact.picture.save('avatar.jpg', file_obj)
-        data = '%s' % contact.picture.url
-        return Response(data=data)
+    def get_object(self):
+        return Contact.objects.get(user=self.request.user)
