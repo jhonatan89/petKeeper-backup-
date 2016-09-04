@@ -12,16 +12,14 @@ class NestedDefaultRouter(NestedRouterMixin, DefaultRouter):
     pass
 
 
-# Routers for request/{pk}/offers/{pk}
 router = NestedDefaultRouter()
-(
-    router.register(r'requests', RequestViewSet, 'request').register(
-        r'offers', OfferViewSet, 'request-offer', parents_query_lookups=['request'])
-)
-(
-    router.register(r'requests', RequestViewSet, 'request').register(
-        r'pets', PetRequestViewSet, 'request-pet', parents_query_lookups=['request'])
-)
+
+router.register(r'requests', RequestViewSet, 'request').register(
+    r'offers', OfferViewSet, 'request-offer', parents_query_lookups=['request'])
+
+router.register(r'requests', RequestViewSet, 'request').register(
+    r'pets', PetRequestViewSet, 'request-pet', parents_query_lookups=['request'])
+
 
 # Routers provide an easy way of automatically determining the URL conf.
 router.register(r'pets', PetViewSet)
