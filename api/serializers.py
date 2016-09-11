@@ -56,7 +56,7 @@ class RequestSerializer(serializers.ModelSerializer):
         request = Request.objects.create(**validated_data)
         for pet in pets:
             tmp = Pet.objects.get(pk=pet.get('id'))
-            request.request_Pet.add(tmp)
+            request.pets.add(tmp)
         return request
 
 

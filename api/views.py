@@ -15,6 +15,8 @@ from api.models import Request, Breed, Offer, Contact, Size, Pet
 from api.serializers import (RequestSerializer, BreedSerializer, ContactSerializer, SizeSerializer,
                              PetSerializer, OfferSerializer)
 from api.utils import send_petkeeper_email
+from rest_framework import filters
+from api.filters import RequestFilter
 
 
 class RequestViewSet(NestedViewSetMixin, ModelViewSet):
@@ -23,6 +25,8 @@ class RequestViewSet(NestedViewSetMixin, ModelViewSet):
     """
     queryset = Request.objects.filter(open=True).order_by('start_date')
     serializer_class = RequestSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_class = RequestFilter
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
