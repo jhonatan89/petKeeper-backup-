@@ -5,25 +5,27 @@ from __future__ import unicode_literals
 import rest_framework
 from django.contrib.auth.models import User
 from django.core.files import File
+from django.db.models import Count
+from rest_framework import filters
 from rest_framework.decorators import list_route, detail_route
 from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from rest_framework_extensions.mixins import NestedViewSetMixin
 
-from api.models import Request, Breed, Offer, Contact, Size, Pet
-from api.serializers import (RequestSerializer, BreedSerializer, ContactSerializer, SizeSerializer,
-                             PetSerializer, OfferSerializer)
-from api.utils import send_petkeeper_email
-from rest_framework import filters
 from api.filters import RequestFilter
+from api.models import Request, Breed, Offer, Size, Pet
+from api.serializers import (RequestSerializer, BreedSerializer, SizeSerializer,
+                             PetSerializer, OfferSerializer, UserSerializer)
+from api.utils import send_petkeeper_email
 
 
 class RequestViewSet(NestedViewSetMixin, ModelViewSet):
     """
     API endpoint that allows requests to be viewed or edited.
     """
-    queryset = Request.objects.filter(open=True).order_by('start_date')
+    queryset = Request.objects.annotate(pet_count=Count('pets'), offer_count=Count('offers')).filter(
+        open=True).order_by('start_date', 'offer_count', '-pet_count')
     serializer_class = RequestSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filter_class = RequestFilter
@@ -101,15 +103,15 @@ class OfferViewSet(NestedViewSetMixin, ModelViewSet):
 
 class UserViewSet(ReadOnlyModelViewSet):
     queryset = User.objects.all()
-    serializer_class = ContactSerializer
+    serializer_class = UserSerializer
 
 
 class MeView(RetrieveUpdateAPIView):
-    serializer_class = ContactSerializer
+    serializer_class = UserSerializer
     permission_classes = [rest_framework.permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return Contact.objects.filter(user=self.request.user)
+        return User.objects.filter(pk=self.request.user.pk)
 
     def get_object(self):
-        return Contact.objects.get(user=self.request.user)
+        return self.request.user

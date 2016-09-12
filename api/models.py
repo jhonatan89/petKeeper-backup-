@@ -61,7 +61,7 @@ class Request(models.Model):
     end_date = models.DateTimeField()
     open = models.BooleanField(default=False)
     pets = models.ManyToManyField(Pet)
-    owner = models.ForeignKey(User)
+    owner = models.ForeignKey(User, related_name='requests')
 
     def __unicode__(self):
         return '%s' % self.description
@@ -74,8 +74,8 @@ class Request(models.Model):
 class Offer(models.Model):
     description = models.CharField(max_length=400)
     price = models.FloatField()
-    keeper = models.ForeignKey(User)
-    request = models.ForeignKey(Request)
+    keeper = models.ForeignKey(User, related_name='offers')
+    request = models.ForeignKey(Request, related_name='offers')
     accepted = models.NullBooleanField()
 
     def __unicode__(self):

@@ -8,18 +8,28 @@ from rest_framework import serializers
 from api.models import Request, Offer, Pet, Size, Breed, Contact
 
 
-class UserShortSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('id', 'username', 'email', 'first_name', 'last_name')
-
-
-class ContactSerializer(serializers.ModelSerializer):
-    user = UserShortSerializer(read_only=True)
-
+class ContactShortSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contact
-        fields = ('phone', 'address', 'picture', 'about', 'user')
+        fields = ('phone', 'address', 'picture', 'about')
+
+
+class UserSerializer(serializers.ModelSerializer):
+    contact = ContactShortSerializer()
+
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'contact')
+        read_only_fields = ('id', 'username', 'email', 'first_name', 'last_name')
+
+    def update(self, instance, validated_data):
+        # Only the contact information is updated
+        contact_data = validated_data.get('contact')
+        contact = instance.contact
+        for attr, value in contact_data.items():
+            setattr(contact, attr, value)
+        contact.save()
+        return instance
 
 
 class SizeSerializer(serializers.ModelSerializer):
@@ -44,7 +54,7 @@ class PetNestedSerializer(serializers.ModelSerializer):
 
 
 class RequestSerializer(serializers.ModelSerializer):
-    owner = ContactSerializer(read_only=True)
+    owner = UserSerializer(read_only=True)
     pets = PetNestedSerializer(many=True)
 
     class Meta:
@@ -70,7 +80,7 @@ class PetSerializer(serializers.ModelSerializer):
 
 
 class OfferSerializer(serializers.ModelSerializer):
-    keeper = ContactSerializer(read_only=True)
+    keeper = UserSerializer(read_only=True)
     request = serializers.PrimaryKeyRelatedField(queryset=Request.objects.all())
 
     class Meta:
