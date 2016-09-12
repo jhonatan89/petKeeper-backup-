@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 
 from django.contrib.auth.models import User
 from rest_framework import serializers
+from api.validators import StartEndDateValidator, NotEmptyCollectionValidator
 
 from api.models import Request, Offer, Pet, Size, Breed, Contact
 
@@ -60,6 +61,10 @@ class RequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Request
         fields = ('id', 'description', 'start_date', 'end_date', 'open', 'pets', 'owner')
+        validators = [
+            StartEndDateValidator(start_date_field='start_date', end_date_field='end_date'),
+            NotEmptyCollectionValidator('pets')
+        ]
 
     def create(self, validated_data):
         pets = validated_data.pop('pets')
@@ -68,6 +73,16 @@ class RequestSerializer(serializers.ModelSerializer):
             tmp = Pet.objects.get(pk=pet.get('id'))
             request.pets.add(tmp)
         return request
+
+    def update(self, instance, validated_data):
+        pets = validated_data.pop('pets')
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        for pet in pets:
+            tmp = Pet.objects.get(pk=pet.get('id'))
+            instance.pets.add(tmp)
+        instance.save()
+        return instance
 
 
 class PetSerializer(serializers.ModelSerializer):
